@@ -27,6 +27,7 @@ package net.fabricmc.loom.task;
 import com.google.common.base.Preconditions;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.UnknownTaskException;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
@@ -52,28 +53,31 @@ public final class LoomTasks {
 		});
 
 		RemapTaskConfiguration.setupRemap(project);
-		tasks.register("generateDLIConfig", GenerateDLIConfigTask.class, t -> {
+		/*tasks.register("generateDLIConfig", GenerateDLIConfigTask.class, t -> {
 			t.setDescription("Generate the DevLaunchInjector config file");
 
 			// Must allow these IDE files to be generated first
 			t.mustRunAfter(tasks.named("eclipse"));
 			t.mustRunAfter(tasks.named("idea"));
-		});
-		tasks.register("generateLog4jConfig", GenerateLog4jConfigTask.class, t -> {
+		});*/
+		/*tasks.register("generateLog4jConfig", GenerateLog4jConfigTask.class, t -> {
 			t.setDescription("Generate the log4j config file");
-		});
+		});*/
 		tasks.register("generateRemapClasspath", GenerateRemapClasspathTask.class, t -> {
 			t.setDescription("Generate the remap classpath file");
 		});
 
-		tasks.register("configureLaunch", task -> {
-			task.dependsOn(tasks.named("generateDLIConfig"));
-			task.dependsOn(tasks.named("generateLog4jConfig"));
+		TaskProvider<Task> configureLaunch = tasks.register("configureLaunch", Task.class, task -> {
+//			task.dependsOn(tasks.named("generateDLIConfig"));
+//			task.dependsOn(tasks.named("generateLog4jConfig"));
 			task.dependsOn(tasks.named("generateRemapClasspath"));
 
 			task.setDescription("Setup the required files to launch Minecraft");
 			task.setGroup(Constants.TaskGroup.FABRIC);
 		});
+		try {
+			tasks.getByName("prepareRuns").dependsOn(configureLaunch);
+		} catch (UnknownTaskException ignored) {}
 
 		TaskProvider<ValidateAccessWidenerTask> validateAccessWidener = tasks.register("validateAccessWidener", ValidateAccessWidenerTask.class, t -> {
 			t.setDescription("Validate all the rules in the access widener against the Minecraft jar");
@@ -82,7 +86,7 @@ public final class LoomTasks {
 
 		tasks.named("check").configure(task -> task.dependsOn(validateAccessWidener));
 
-		registerIDETasks(tasks);
+//		registerIDETasks(tasks);
 		registerRunTasks(tasks, project);
 
 		// Must be done in afterEvaluate to allow time for the build script to configure the jar config.
@@ -132,11 +136,11 @@ public final class LoomTasks {
 			String configName = config.getName();
 			String taskName = "run" + configName.substring(0, 1).toUpperCase() + configName.substring(1);
 
-			tasks.register(taskName, RunGameTask.class, config).configure(t -> {
+			/*tasks.register(taskName, RunGameTask.class, config).configure(t -> {
 				t.setDescription("Starts the '" + config.getConfigName() + "' run configuration");
 
 				t.dependsOn(config.getEnvironment().equals("client") ? "configureClientLaunch" : "configureLaunch");
-			});
+			});*/
 		});
 		extension.getRunConfigs().create("client", RunConfigSettings::client);
 		extension.getRunConfigs().create("server", RunConfigSettings::server);

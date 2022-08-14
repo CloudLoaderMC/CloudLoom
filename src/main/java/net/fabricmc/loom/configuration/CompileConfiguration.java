@@ -164,9 +164,9 @@ public final class CompileConfiguration {
 			configureDecompileTasks(project);
 		});
 
-		finalizedBy(p, "idea", "genIdeaWorkspace");
+		/*finalizedBy(p, "idea", "genIdeaWorkspace");
 		finalizedBy(p, "eclipse", "genEclipseRuns");
-		finalizedBy(p, "cleanEclipse", "cleanEclipseRuns");
+		finalizedBy(p, "cleanEclipse", "cleanEclipseRuns");*/
 
 		// Add the "dev" jar to the "namedElements" configuration
 		p.artifacts(artifactHandler -> artifactHandler.add(Constants.Configurations.NAMED_ELEMENTS, p.getTasks().named("jar")));

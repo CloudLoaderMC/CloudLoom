@@ -63,7 +63,7 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 	}
 
 	public void apply(Project project) {
-		project.getLogger().lifecycle("Fabric Loom: " + LOOM_VERSION);
+		project.getLogger().lifecycle("Cloud Loom: " + LOOM_VERSION);
 		LibraryLocationLogger.logLibraryVersions();
 
 		refreshDeps = project.getGradle().getStartParameter().isRefreshDependencies() || Boolean.getBoolean("loom.refresh");
@@ -87,6 +87,6 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 		MavenPublication.configure(project);
 		LoomTasks.registerTasks(project);
 		DecompilerConfiguration.setup(project);
-		IdeaConfiguration.setup(project);
+//		IdeaConfiguration.setup(project);
 	}
 }
