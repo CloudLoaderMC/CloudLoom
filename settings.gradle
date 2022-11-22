@@ -1,3 +1,13 @@
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+		maven {
+			name = 'Cloud'
+			url = 'https://maven.cloudmc.ml/releases/'
+		}
+	}
+}
+
 rootProject.name = name
 
 include "bootstrap"

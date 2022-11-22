@@ -1,3 +1,5 @@
+import ml.darubyminer360.gradleutils.GradleUtils
+
 plugins {
 	id 'java'
 	id 'maven-publish'
@@ -10,6 +12,7 @@ plugins {
 	id 'codenarc'
 	id "org.jetbrains.kotlin.jvm" version "1.5.31" // Must match the version included with gradle.
 	id "com.diffplug.spotless" version "6.3.0"
+	id 'ml.darubyminer360.gradleutils' version "2.2.0"
 }
 
 java {
@@ -28,7 +31,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 	}
 }
 
-group = 'net.fabricmc'
+group = 'ml.cloudmc'
 archivesBaseName = project.name
 def baseVersion = '0.12'
 
@@ -218,8 +221,8 @@ publishing {
 
 		// Manually crate the plugin marker for snapshot versions
 		snapshotPlugin(MavenPublication) { publication ->
-			groupId 'fabric-loom'
-			artifactId 'fabric-loom.gradle.plugin'
+			groupId 'CloudLoom'
+			artifactId 'CloudLoom.gradle.plugin'
 			version baseVersion + '-SNAPSHOT'
 
 			pom.withXml({
@@ -229,24 +232,16 @@ publishing {
 				Node dependencies = root.appendChild(document.createElement('dependencies'))
 				Node dependency = dependencies.appendChild(document.createElement('dependency'))
 				Node groupId = dependency.appendChild(document.createElement('groupId'))
-				groupId.setTextContent('net.fabricmc')
+				groupId.setTextContent('ml.cloudmc')
 				Node artifactId = dependency.appendChild(document.createElement('artifactId'))
-				artifactId.setTextContent('fabric-loom')
+				artifactId.setTextContent('CloudLoom')
 				Node version = dependency.appendChild(document.createElement('version'))
 				version.setTextContent(baseVersion + '-SNAPSHOT')
 			})
 		}
 	}
 	repositories {
-		maven {
-			if (ENV.MAVEN_URL) {
-				url ENV.MAVEN_URL
-				credentials {
-					username ENV.MAVEN_USERNAME
-					password ENV.MAVEN_PASSWORD
-				}
-			}
-		}
+		maven GradleUtils.getPublishingCloudMaven(project)
 	}
 }
 
