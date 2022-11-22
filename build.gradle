@@ -35,12 +35,13 @@ group = 'ml.cloudmc'
 archivesBaseName = project.name
 def baseVersion = '0.12'
 
-def ENV = System.getenv()
-if (ENV.BUILD_NUMBER) {
-	version = baseVersion + '.' + ENV.BUILD_NUMBER
-} else {
-	version = baseVersion + '.local'
-}
+//def ENV = System.getenv()
+//if (ENV.BUILD_NUMBER) {
+//	version = baseVersion + '.' + ENV.BUILD_NUMBER
+//} else {
+//	version = baseVersion + '.local'
+//}
+version = baseVersion + '.1'
 
 repositories {
 	maven {
@@ -170,7 +171,7 @@ codenarc {
 gradlePlugin {
 	plugins {
 		fabricLoom {
-			id = 'fabric-loom'
+			id = 'CloudLoom'
 			implementationClass = 'net.fabricmc.loom.bootstrap.LoomGradlePluginBootstrap'
 		}
 	}
