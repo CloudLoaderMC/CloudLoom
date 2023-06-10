@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import com.google.common.base.Preconditions;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.UnknownTaskException;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
@@ -59,9 +60,10 @@ public abstract class LoomTasks implements Runnable {
 		getTasks().register("generateDLIConfig", GenerateDLIConfigTask.class, t -> {
 			t.setDescription("Generate the DevLaunchInjector config file");
 
+			// TODO: Add support for this when using CloudGradle
 			// Must allow these IDE files to be generated first
-			t.mustRunAfter(getTasks().named("eclipse"));
-			t.mustRunAfter(getTasks().named("idea"));
+//			t.mustRunAfter(getTasks().named("eclipse"));
+//			t.mustRunAfter(getTasks().named("idea"));
 		});
 		getTasks().register("generateLog4jConfig", GenerateLog4jConfigTask.class, t -> {
 			t.setDescription("Generate the log4j config file");
@@ -70,7 +72,7 @@ public abstract class LoomTasks implements Runnable {
 			t.setDescription("Generate the remap classpath file");
 		});
 
-		getTasks().register("configureLaunch", task -> {
+		TaskProvider<Task> configureLaunch = getTasks().register("configureLaunch", task -> {
 			task.dependsOn(getTasks().named("generateDLIConfig"));
 			task.dependsOn(getTasks().named("generateLog4jConfig"));
 			task.dependsOn(getTasks().named("generateRemapClasspath"));
@@ -86,7 +88,7 @@ public abstract class LoomTasks implements Runnable {
 
 		getTasks().named("check").configure(task -> task.dependsOn(validateAccessWidener));
 
-		registerIDETasks();
+//		registerIDETasks();
 		registerRunTasks();
 
 		// Must be done in afterEvaluate to allow time for the build script to configure the jar config.
@@ -139,7 +141,7 @@ public abstract class LoomTasks implements Runnable {
 
 		Preconditions.checkArgument(extension.getRunConfigs().size() == 0, "Run configurations must not be registered before loom");
 
-		extension.getRunConfigs().whenObjectAdded(config -> {
+		/*extension.getRunConfigs().whenObjectAdded(config -> {
 			String configName = config.getName();
 			String taskName = "run" + configName.substring(0, 1).toUpperCase() + configName.substring(1);
 
@@ -148,7 +150,7 @@ public abstract class LoomTasks implements Runnable {
 
 				t.dependsOn(config.getEnvironment().equals("client") ? "configureClientLaunch" : "configureLaunch");
 			});
-		});
+		});*/
 		extension.getRunConfigs().create("client", RunConfigSettings::client);
 		extension.getRunConfigs().create("server", RunConfigSettings::server);
 
@@ -169,7 +171,7 @@ public abstract class LoomTasks implements Runnable {
 	}
 
 	private static void registerClientSetupTasks(TaskContainer tasks, boolean extractNatives) {
-		tasks.register("downloadAssets", DownloadAssetsTask.class, t -> {
+		tasks.register("downloadLoomAssets", DownloadAssetsTask.class, t -> {
 			t.setDescription("Downloads required game assets for Minecraft.");
 		});
 
@@ -180,7 +182,7 @@ public abstract class LoomTasks implements Runnable {
 		}
 
 		tasks.register("configureClientLaunch", task -> {
-			task.dependsOn(tasks.named("downloadAssets"));
+			task.dependsOn(tasks.named("downloadLoomAssets"));
 			task.dependsOn(tasks.named("configureLaunch"));
 
 			if (extractNatives) {

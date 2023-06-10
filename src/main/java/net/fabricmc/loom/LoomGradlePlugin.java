@@ -65,7 +65,7 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 			RemapTaskConfiguration.class,
 			LoomTasks.class,
 			DecompilerConfiguration.class,
-			IdeaConfiguration.class,
+//			IdeaConfiguration.class,
 			IdeConfiguration.class
 	);
 
@@ -79,7 +79,7 @@ public class LoomGradlePlugin implements BootstrappedPlugin {
 	}
 
 	public void apply(Project project) {
-		project.getLogger().lifecycle("Fabric Loom: " + LOOM_VERSION);
+		project.getLogger().lifecycle("Cloud Loom: " + LOOM_VERSION);
 		LibraryLocationLogger.logLibraryVersions();
 
 		// Apply default plugins

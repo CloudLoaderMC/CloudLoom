@@ -237,7 +237,8 @@ trait GradleProjectTestTrait {
 		}
 
 		File getGeneratedSources(String mappings) {
-			return new File(getGradleHomeDir(), "caches/fabric-loom/minecraftMaven/net/minecraft/minecraft-merged/${mappings}/minecraft-merged-${mappings}-sources.jar")
+//			return new File(getGradleHomeDir(), "caches/fabric-loom/minecraftMaven/net/minecraft/minecraft-merged/${mappings}/minecraft-merged-${mappings}-sources.jar")
+			return new File(getGradleHomeDir(), "caches/CloudLoom/minecraftMaven/net/minecraft/minecraft-merged/${mappings}/minecraft-merged-${mappings}-sources.jar")
 		}
 
 		File getGeneratedLocalSources(String mappings) {

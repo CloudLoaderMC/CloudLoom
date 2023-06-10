@@ -117,9 +117,9 @@ public abstract class CompileConfiguration implements Runnable {
 			configureDecompileTasks(configContext);
 		});
 
-		finalizedBy("idea", "genIdeaWorkspace");
+		/*finalizedBy("idea", "genIdeaWorkspace");
 		finalizedBy("eclipse", "genEclipseRuns");
-		finalizedBy("cleanEclipse", "cleanEclipseRuns");
+		finalizedBy("cleanEclipse", "cleanEclipseRuns");*/
 
 		// Add the "dev" jar to the "namedElements" configuration
 		getProject().artifacts(artifactHandler -> artifactHandler.add(Configurations.NAMED_ELEMENTS, getTasks().named("jar")));
@@ -132,7 +132,7 @@ public abstract class CompileConfiguration implements Runnable {
 
 		if (getProject().getPluginManager().hasPlugin("org.jetbrains.kotlin.kapt")) {
 			// If loom is applied after kapt, then kapt will use the AP arguments too early for loom to pass the arguments we need for mixin.
-			throw new IllegalArgumentException("fabric-loom must be applied BEFORE kapt in the plugins { } block.");
+			throw new IllegalArgumentException("CloudLoom must be applied BEFORE kapt in the plugins { } block.");
 		}
 	}
 
@@ -189,6 +189,14 @@ public abstract class CompileConfiguration implements Runnable {
 	}
 
 	private void setupMixinAp(MixinExtension mixin) {
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
+		// TODO FOR FUTURE ME: FOR SOME REASON THE FOLLOWING LINES CAUSE COMPILATION ERRORS WITH THE PATCHED MINECRAFT SOURCE CODE
 		mixin.init();
 
 		// Disable some things used by log4j via the mixin AP that prevent it from being garbage collected

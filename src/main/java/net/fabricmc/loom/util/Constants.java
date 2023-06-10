@@ -45,7 +45,7 @@ public class Constants {
 		public static final String MOD_COMPILE_CLASSPATH = "modCompileClasspath";
 		public static final String MOD_COMPILE_CLASSPATH_MAPPED = "modCompileClasspathMapped";
 		public static final String INCLUDE = "include";
-		public static final String MINECRAFT = "minecraft";
+		public static final String MINECRAFT = "loomMinecraft";
 
 		public static final String MINECRAFT_COMPILE_LIBRARIES = "minecraftLibraries";
 		public static final String MINECRAFT_RUNTIME_LIBRARIES = "minecraftRuntimeLibraries";
@@ -66,7 +66,7 @@ public class Constants {
 		 * Before Minecraft 1.19-pre1 this contains libraries that need to be extracted otherwise this goes on the runtime classpath.
 		 */
 		public static final String MINECRAFT_NATIVES = "minecraftNatives";
-		public static final String MAPPINGS = "mappings";
+		public static final String MAPPINGS = "loomMappings";
 		public static final String MAPPINGS_FINAL = "mappingsFinal";
 		public static final String LOADER_DEPENDENCIES = "loaderLibraries";
 		public static final String LOOM_DEVELOPMENT_DEPENDENCIES = "loomDevelopmentDependencies";
